@@ -73,7 +73,7 @@ public class PlaneController : MonoBehaviour
     {
         landingTarget = target;
         caughtAircraftCarrier = true;
-        plane.LookAt(target.transform);
+        plane.LookAt(target);
         plane.localPosition = transform.right * 0;
         inLanding = true;
     }
@@ -87,7 +87,7 @@ public class PlaneController : MonoBehaviour
         caughtAircraftCarrier = false;
         inLanding = false;
         landingTarget = null;
-        flyTarget = gameObject.transform.position * -10;
+        flyTarget = plane.position * -10;
         plane.LookAt(aircraftCarrier.position);
         plane.parent = null;
     }
