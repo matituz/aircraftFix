@@ -2,32 +2,34 @@
 
 public class PlaneController : MonoBehaviour
 {
-    [SerializeField] private GameObject aircraftCarrier, landingForward, landingBackward;
+    [SerializeField] private Transform landingForward, landingBackward, aircraftCarrier;
     [SerializeField] private float speed = 100;
     [SerializeField] private GameObject planeSpawner;
     private bool caughtAircraftCarrier, inLanding;
-    private GameObject landingTarget;
+    private Transform landingTarget;
     private Vector3 flyTarget;
     private Spawner checkPlanes;
     private PlaneController planeController;
+    private Transform plane;
     private void Start()
     {
         checkPlanes = planeSpawner.GetComponent<Spawner>();
         planeController = gameObject.GetComponent<PlaneController>();
+        plane = transform;
     }
     void Update()
     {
         if(caughtAircraftCarrier == false)
         {
             float step = speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, flyTarget, step);
+            plane.position = Vector3.MoveTowards(plane.position, flyTarget, step);
 
         }
         else
         {
             float step = speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, landingTarget.transform.position, step);
-            if(landingTarget.transform.position == gameObject.transform.position)
+            plane.position = Vector3.MoveTowards(plane.position, landingTarget.position, step);
+            if(landingTarget.position == plane.position)
             {
                 RemovePlane();
             }
@@ -39,7 +41,7 @@ public class PlaneController : MonoBehaviour
             {
                 if (inLanding == false)
                 {
-                    gameObject.transform.parent = other.transform;
+                    plane.parent = other.transform;
                     StartLanding(landingForward);
             }
             }
@@ -47,7 +49,7 @@ public class PlaneController : MonoBehaviour
             {
                 if (inLanding == false)
                     {
-                    gameObject.transform.parent = other.transform;
+                    plane.parent = other.transform;
                     StartLanding(landingBackward);
                 }
             }
@@ -67,12 +69,12 @@ public class PlaneController : MonoBehaviour
             RemovePlane();
         }
     }
-    private void StartLanding(GameObject target)
+    private void StartLanding(Transform target)
     {
         landingTarget = target;
         caughtAircraftCarrier = true;
-        gameObject.transform.LookAt(target.transform);
-        gameObject.transform.localPosition = transform.right * 0;
+        plane.LookAt(target.transform);
+        plane.localPosition = transform.right * 0;
         inLanding = true;
     }
     private void RemovePlane()
@@ -86,7 +88,7 @@ public class PlaneController : MonoBehaviour
         inLanding = false;
         landingTarget = null;
         flyTarget = gameObject.transform.position * -10;
-        gameObject.transform.LookAt(aircraftCarrier.transform.position);
-        gameObject.transform.parent = null;
+        plane.LookAt(aircraftCarrier.position);
+        plane.parent = null;
     }
 }
