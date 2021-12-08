@@ -8,6 +8,13 @@ public class PlaneController : MonoBehaviour
     private bool caughtAircraftCarrier, inLanding;
     private GameObject landingTarget;
     private Vector3 flyTarget;
+    private Spawner checkPlanes;
+    private PlaneController planeController;
+    private void Start()
+    {
+        checkPlanes = planeSpawner.GetComponent<Spawner>();
+        planeController = gameObject.GetComponent<PlaneController>();
+    }
     void Update()
     {
         if(caughtAircraftCarrier == false)
@@ -48,7 +55,7 @@ public class PlaneController : MonoBehaviour
             {
                 if (other.gameObject.name == landingTarget.name)
                 {
-                    planeSpawner.GetComponent<Spawner>().ChangeScore();
+                    checkPlanes.ChangeScore();
                     RemovePlane();
                 }
             }
@@ -71,7 +78,7 @@ public class PlaneController : MonoBehaviour
     private void RemovePlane()
     {
         gameObject.SetActive(false);
-        planeSpawner.GetComponent<Spawner>().CheckAvaiblePlanes(gameObject);
+        checkPlanes.CheckAvaiblePlanes(planeController);
     }
     public void ResetPlaneData()
     {

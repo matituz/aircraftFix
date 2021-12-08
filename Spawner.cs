@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float startTimeToSpawn = 3;
     private int generateNumberOfPlane;
     private float timeToSpawn = 3f;
-    [SerializeField] private List<GameObject> avaiblePlanes = new List<GameObject>();
+    [SerializeField] private List<PlaneController> avaiblePlanes = new List<PlaneController>();
 
     private void Start ()
 	{
@@ -29,9 +29,9 @@ public class Spawner : MonoBehaviour
         if (avaiblePlanes[0] != null)
         {
             generateNumberOfPlane = (int)Random.Range(0, avaiblePlanes.Count);
-            avaiblePlanes[generateNumberOfPlane].SetActive(true);
+            avaiblePlanes[generateNumberOfPlane].gameObject.SetActive(true);
             avaiblePlanes[generateNumberOfPlane].transform.position = spawnPoints[(int)Random.Range(0, spawnPoints.Length)].transform.position;
-            avaiblePlanes[generateNumberOfPlane].GetComponent<PlaneController>().ResetPlaneData();
+            avaiblePlanes[generateNumberOfPlane].ResetPlaneData();
             avaiblePlanes.RemoveAt(generateNumberOfPlane);
         }
         else
@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
             timeToSpawn = startTimeToSpawn;
         }
     }
-    public void CheckAvaiblePlanes(GameObject addPlane)
+    public void CheckAvaiblePlanes(PlaneController addPlane)
     {
         avaiblePlanes.Add(addPlane);
     }
