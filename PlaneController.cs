@@ -5,16 +5,14 @@ public class PlaneController : MonoBehaviour
     [SerializeField] private Transform landingForward, landingBackward, aircraftCarrier;
     [SerializeField] private float speed = 100;
     [SerializeField] private GameObject planeSpawner;
+    [SerializeField] private Spawner checkPlanes;
+    [SerializeField] private PlaneController planeController'
     private bool caughtAircraftCarrier, inLanding;
     private Transform landingTarget;
     private Vector3 flyTarget;
-    private Spawner checkPlanes;
-    private PlaneController planeController;
     private Transform plane;
     private void Start()
     {
-        checkPlanes = planeSpawner.GetComponent<Spawner>();
-        planeController = gameObject.GetComponent<PlaneController>();
         plane = transform;
     }
     void Update()
